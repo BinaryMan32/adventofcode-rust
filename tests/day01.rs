@@ -30,7 +30,7 @@ mod tests {
     #[test]
     fn part1_input() {
         let input: Vec<i64> = read_lines("./input");
-        assert_eq!(part1(&input), 0);
+        assert_eq!(part1(&input), 1521);
     }
 
     #[test]
@@ -42,6 +42,6 @@ mod tests {
     #[test]
     fn part2_input() {
         let input: Vec<i64> = read_lines("./input");
-        assert_eq!(part2(&input), 0);
+        assert_eq!(part2(&input), 1543);
     }
 }
