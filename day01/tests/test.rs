@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod tests {
-    use adventofcode_rust::day01::{part1, part2};
+    use day01::{part1, part2};
 
     fn integers(data: &str) -> Vec<i64> {
         data
