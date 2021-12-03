@@ -20,7 +20,7 @@ mod tests {
 
     #[test]
     fn part1_input() {
-        assert_eq!(part1(&INPUT.lines().collect()), 0);
+        assert_eq!(part1(&INPUT.lines().collect()), 1635930);
     }
 
     #[test]
@@ -30,6 +30,6 @@ mod tests {
 
     #[test]
     fn part2_input() {
-        assert_eq!(part2(&INPUT.lines().collect()), 0);
+        assert_eq!(part2(&INPUT.lines().collect()), 1781819478);
     }
 }
