@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-fn parse_drawing(input: &str) -> Vec<u8> {
+fn parse_call_order(input: &str) -> Vec<u8> {
     input
         .split(",")
         .map(|s| s.parse::<u8>().unwrap())
@@ -70,22 +70,40 @@ fn parse_boards(input: &[&str]) -> Vec<Board> {
         .collect()
 }
 
-pub fn part1(input: &Vec<&str>) -> i64 {
-    let drawing = parse_drawing(input[0]);
+
+struct State<'a> {
+    active: Vec<&'a Board>,
+    scores: Vec<i64>
+}
+
+fn play(input: &Vec<&str>) -> Vec<i64> {
+    let call_order = parse_call_order(input[0]);
     // skip blank line between moves and boards
     let boards = parse_boards(&input[2..]);
-    let winner = (1..=drawing.len())
-        .map(|len| &drawing[..len])
-        .find_map(|drawn| {
-            let marked: HashSet<u8> = drawn.iter().copied().collect();
-            let last_drawn = *drawn.last().unwrap();
-            boards.iter()
-                .find(|b| b.is_winner(&marked, last_drawn))
-                .map(|b| b.score(&marked) * last_drawn as i64)
+    let initial_state = State{active: boards.iter().collect(), scores: Vec::new()};
+    let completed = (1..=call_order.len())
+        .map(|len| &call_order[..len])
+        .fold(initial_state, |state, called| {
+            let marked: HashSet<u8> = called.iter().copied().collect();
+            let last_called = *called.last().unwrap();
+            let (winners, active) = state.active.iter()
+                .partition(|b| b.is_winner(&marked, last_called));
+            State {
+                active,
+                scores: state.scores.into_iter().chain(
+                    winners.iter().map(|b| b.score(&marked) * last_called as i64)
+                ).collect()
+            }
         });
-    winner.unwrap_or(0)
+    completed.scores
+}
+
+pub fn part1(input: &Vec<&str>) -> i64 {
+    let scores = play(input);
+    *scores.first().unwrap()
 }
 
 pub fn part2(input: &Vec<&str>) -> i64 {
-    0
+    let scores = play(input);
+    *scores.last().unwrap()
 }
