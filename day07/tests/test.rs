@@ -17,7 +17,7 @@ mod tests {
 
     #[test]
     fn part2_example() {
-        assert_eq!(part2(&EXAMPLE.lines().collect()), 0);
+        assert_eq!(part2(&EXAMPLE.lines().collect()), 168);
     }
 
     #[test]
