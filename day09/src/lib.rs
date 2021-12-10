@@ -1,5 +1,3 @@
-use std::cmp::{min, max};
-
 struct HeightMap {
     cells: Vec<Vec<u8>>
 }
@@ -16,24 +14,31 @@ impl HeightMap {
         }
     }
 
-    fn sum_lowest(&self) -> i64 {
+    fn find_low_points(&self) -> Vec<(usize, usize)> {
         let num_rows = self.cells.len();
         let num_cols = self.cells[0].len();
         let max_row = num_rows - 2;
         let max_col = num_cols - 2;
         (0..num_rows).flat_map(|r| {
-            (0..num_cols).map(move |c| {
+            (0..num_cols).filter_map(move |c| {
                 let center: u8 = self.cells[r][c];
                 if (r < 1 || center < self.cells[r-1][c])
                  && (r > max_row || center < self.cells[r+1][c])
                  && (c < 1 || center < self.cells[r][c-1])
                  && (c > max_col || center < self.cells[r][c+1]) {
-                    1 + center as i64
+                    Some((r, c))
                 } else {
-                    0
+                    None
                 }
             })
-        }).sum()
+        }).collect()
+    }
+
+    fn sum_lowest(&self) -> i64 {
+        self.find_low_points()
+            .into_iter()
+            .map(|(r, c)| (self.cells[r][c] + 1) as i64)
+            .sum()
     }
 }
 
