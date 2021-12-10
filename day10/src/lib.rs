@@ -29,19 +29,38 @@ fn check_chunk(line: &str) -> Status {
     if expected.is_empty() {
         Status::Ok
     } else {
-        Status::Incomplete(expected.iter().collect::<String>())
+        Status::Incomplete(expected.iter().rev().collect::<String>())
     }
 }
 
 pub fn part1(input: &Vec<&str>) -> i64 {
     input.iter()
-        .map(|line| match check_chunk(line) {
-            Status::Corrupt(c) => corrupt_score(c),
-            _ => 0
+        .filter_map(|line| match check_chunk(line) {
+            Status::Corrupt(c) => Some(corrupt_score(c)),
+            _ => None
         })
         .sum()
 }
 
+fn incomplete_score(incomplete: &str) -> i64 {
+    incomplete.chars()
+        .map(|c| match c {
+            ')' => 1,
+            ']' => 2,
+            '}' => 3,
+            '>' => 4,
+            _ => 0
+        })
+        .fold(0, |total, c| total * 5 + c)
+}
+
 pub fn part2(input: &Vec<&str>) -> i64 {
-    0
+    let mut incomplete_scores = input.iter()
+        .filter_map(|line| match check_chunk(line) {
+            Status::Incomplete(expected) => Some(incomplete_score(&expected)),
+            _ => None
+        })
+        .collect::<Vec<_>>();
+    incomplete_scores.sort();
+    incomplete_scores[incomplete_scores.len() / 2]
 }
