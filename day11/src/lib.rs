@@ -17,8 +17,9 @@ impl Cavern {
 
     fn num_rows(&self) -> usize { self.cells.len() }
     fn num_cols(&self) -> usize { self.cells[0].len() }
+    fn num_cells(&self) -> usize { self.num_rows() * self.num_cols() }
 
-    fn step(&mut self) {
+    fn step(&mut self) -> usize {
         (0..self.num_rows()).for_each(|r|
             (0..self.num_cols()).for_each(|c| {
                 self.inc_flash_reset(r, c)
@@ -27,10 +28,11 @@ impl Cavern {
         self.cells.iter_mut()
             .flat_map(|row| row.iter_mut())
             .filter(|&&mut cell| cell > 9)
-            .for_each(|cell| {
+            .map(|cell| {
                 *cell = 0;
                 self.num_flashes += 1
             })
+            .count()
     }
 
     fn inc_flash_reset(&mut self, r: usize, c: usize) {
@@ -57,10 +59,18 @@ impl Cavern {
 
 pub fn part1(input: &Vec<&str>) -> i64 {
     let mut cavern = Cavern::parse(input);
-    (0..100).for_each(|_i| cavern.step());
-    cavern.num_flashes
+    (0..100).map(|_i| cavern.step() as i64).sum()
 }
 
 pub fn part2(input: &Vec<&str>) -> i64 {
-    0
+    let mut cavern = Cavern::parse(input);
+    (1..)
+        .find_map(|step|
+            if cavern.step() == cavern.num_cells() {
+                Some(step)
+            } else {
+                None
+            }
+        )
+        .unwrap()
 }
