@@ -29,17 +29,17 @@ mod tests {
 
     #[test]
     fn part2_example1() {
-        assert_eq!(part2(&EXAMPLE1.lines().collect()), 0);
+        assert_eq!(part2(&EXAMPLE1.lines().collect()), 36);
     }
 
     #[test]
     fn part2_example2() {
-        assert_eq!(part2(&EXAMPLE2.lines().collect()), 0);
+        assert_eq!(part2(&EXAMPLE2.lines().collect()), 103);
     }
 
     #[test]
     fn part2_example3() {
-        assert_eq!(part2(&EXAMPLE3.lines().collect()), 0);
+        assert_eq!(part2(&EXAMPLE3.lines().collect()), 3509);
     }
 
     #[test]
