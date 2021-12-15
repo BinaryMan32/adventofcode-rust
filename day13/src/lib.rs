@@ -71,6 +71,21 @@ pub fn part1(input: &Vec<&str>) -> i64 {
     fold_points(&folds[0], &points).len() as i64
 }
 
-pub fn part2(input: &Vec<&str>) -> i64 {
-    0
+fn render(points: &HashSet<Point>) -> String {
+    let num_rows = points.iter().map(|p| p.y).max().unwrap() + 1;
+    let num_cols = points.iter().map(|p| p.x).max().unwrap() + 1;
+    (0..num_rows).map(|y|
+        (0..num_cols).map(|x|
+            if points.contains(&Point{x, y}) {'#'} else {'.'}
+        ).collect::<String>()
+    ).join("\n")
+}
+
+pub fn part2(input: &Vec<&str>) -> String {
+    let (points, folds) = parse_input(input);
+    let final_points = folds.iter()
+        .fold(points, |points, fold| fold_points(fold, &points));
+    let answer = render(&final_points);
+    println!("{}", answer);
+    answer
 }

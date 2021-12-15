@@ -4,6 +4,7 @@ mod tests {
 
     static EXAMPLE: &str = include_str!("example");
     static INPUT: &str = include_str!("input");
+    static EXPECTED2: &str = include_str!("expected2");
 
     #[test]
     fn part1_example() {
@@ -16,12 +17,7 @@ mod tests {
     }
 
     #[test]
-    fn part2_example() {
-        assert_eq!(part2(&EXAMPLE.lines().collect()), 0);
-    }
-
-    #[test]
     fn part2_input() {
-        assert_eq!(part2(&INPUT.lines().collect()), 0);
+        assert_eq!(part2(&INPUT.lines().collect()), EXPECTED2);
     }
 }
