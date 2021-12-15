@@ -44,6 +44,6 @@ mod tests {
 
     #[test]
     fn part2_input() {
-        assert_eq!(part2(&INPUT.lines().collect()), 0);
+        assert_eq!(part2(&INPUT.lines().collect()), 131228);
     }
 }

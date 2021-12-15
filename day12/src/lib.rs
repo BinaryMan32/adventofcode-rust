@@ -5,6 +5,8 @@ struct Graph<'a> {
     neighbors: HashMap<&'a str, Vec<&'a str>>,
 }
 
+static EXTRA: &str = "_extra";
+
 impl<'a> Graph<'a> {
 
     fn parse(lines: &Vec<&'a str>) -> Graph<'a> {
@@ -32,6 +34,10 @@ impl<'a> Graph<'a> {
     }
 
     fn count_paths(&self) -> usize {
+        self.count_paths_from("start", &HashSet::<&'a str>::new().update(EXTRA))
+    }
+
+    fn count_paths_extra(&self) -> usize {
         self.count_paths_from("start", &HashSet::<&'a str>::new())
     }
 
@@ -43,7 +49,11 @@ impl<'a> Graph<'a> {
                 if char::is_ascii_uppercase(&neighbor.chars().next().unwrap()) {
                     self.count_paths_from(neighbor, explored_small)
                 } else if explored_small.contains(neighbor) {
-                    0
+                    if explored_small.contains(EXTRA) {
+                        0
+                    } else {
+                        self.count_paths_from(neighbor, &explored_small.update(neighbor).update(EXTRA))
+                    }
                 } else {
                     self.count_paths_from(neighbor, &explored_small.update(neighbor))
                 }
@@ -58,5 +68,5 @@ pub fn part1(input: &Vec<&str>) -> i64 {
 }
 
 pub fn part2(input: &Vec<&str>) -> i64 {
-    0
+    Graph::parse(input).count_paths_extra() as i64
 }
