@@ -12,7 +12,7 @@ mod tests {
 
     #[test]
     fn part1_input() {
-        assert_eq!(part1(&INPUT.lines().collect()), 0);
+        assert_eq!(part1(&INPUT.lines().collect()), 720);
     }
 
     #[test]
