@@ -26,8 +26,8 @@ mod tests {
     #[test]
     fn part1_example() {
         assert_eq!(part1("D2FE28"), 6);
-        assert_eq!(part1("38006F45291200"), 1);
-        assert_eq!(part1("EE00D40C823060"), 7);
+        assert_eq!(part1("38006F45291200"), 9);
+        assert_eq!(part1("EE00D40C823060"), 14);
         assert_eq!(part1("8A004A801A8002F478"), 16);
         assert_eq!(part1("620080001611562C8802118E34"), 12);
         assert_eq!(part1("C0015000016115A2E0802F182340"), 23);
