@@ -1,8 +1,27 @@
 #[cfg(test)]
 mod tests {
-    use day16::{part1, part2};
+    use day16::{BitReader, part1, part2};
 
     static INPUT: &str = include_str!("input");
+
+    #[test]
+    fn test_bit_reader() {
+        // BA is 10111010
+        let mut reader = BitReader::from_hex_string("BA");
+        assert_eq!(reader.bits_read(), 0);
+
+        assert_eq!(reader.read_bit().unwrap(), true);
+        assert_eq!(reader.bits_read(), 1);
+
+        assert_eq!(reader.read_bits(2).unwrap(), 0b01);
+        assert_eq!(reader.bits_read(), 3);
+
+        assert_eq!(reader.read_bits(4).unwrap(), 0b1101);
+        assert_eq!(reader.bits_read(), 7);
+
+        assert_eq!(reader.read_bit().unwrap(), false);
+        assert_eq!(reader.bits_read(), 8);
+    }
 
     #[test]
     fn part1_example() {
@@ -17,7 +36,7 @@ mod tests {
 
     #[test]
     fn part1_input() {
-        assert_eq!(part1(INPUT), 0);
+        assert_eq!(part1(INPUT), 929);
     }
 
     #[test]
